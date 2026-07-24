@@ -1,0 +1,117 @@
+# =====================================================
+# Java + Maven + JUnit + Mockito
+# Compatível com Eclipse, IntelliJ IDEA e VS Code
+# =====================================================
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# Maven Wrapper
+.mvn/timing.properties
+
+# Compilação Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# Relatórios de testes
+surefire-reports/
+failsafe-reports/
+
+# JaCoCo (caso utilize futuramente)
+jacoco.exec
+jacoco/
+site/
+
+# =====================================================
+# Eclipse
+# =====================================================
+
+.classpath
+.project
+.settings/
+.metadata/
+bin/
+
+# =====================================================
+# IntelliJ IDEA
+# =====================================================
+
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# =====================================================
+# VS Code
+# =====================================================
+
+.vscode/
+
+# =====================================================
+# NetBeans
+# =====================================================
+
+nbproject/private/
+build/
+dist/
+nbbuild/
+nbdist/
+
+# =====================================================
+# Arquivos temporários
+# =====================================================
+
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# =====================================================
+# Sistema Operacional
+# =====================================================
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Linux
+.directory
+
+# =====================================================
+# Arquivos de configuração locais
+# =====================================================
+
+.env
+.env.local
+.env.*
+
+# =====================================================
+# Arquivos de backup
+# =====================================================
+
+*.bak
+*.backup
+*.old
+
+# =====================================================
+# Arquivos gerados por ferramentas
+# =====================================================
+
+hs_err_pid*
+replay_pid*
