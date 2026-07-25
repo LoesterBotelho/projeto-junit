@@ -240,3 +240,73 @@ Este projeto possui finalidade exclusivamente educacional, servindo como laborat
 # Autor
 
 Loester Botelho
+
+---
+
+# 📚 Documentação
+
+Este repositório reúne diversos projetos para estudo de **Java 25**, **JUnit 5**, **Mockito**, **JDBC** e **H2 Database**, com foco em regras de negócio complexas, testes unitários, testes de integração e arquitetura em camadas.
+
+Cada documento descreve um sistema completo, contendo:
+
+- Arquitetura do projeto
+- Modelagem de entidades
+- Services
+- Regras de negócio
+- Cálculos
+- Casos de uso
+- Cenários de testes
+- Testes unitários (JUnit 5)
+- Testes com Mockito
+- Testes de integração utilizando H2 (JDBC puro)
+
+---
+
+# 📖 Projetos Disponíveis
+
+| Projeto | Descrição |
+|----------|-----------|
+| 📒 [Sistema Contábil](SISTEMA-CONTABIL.md) | Livro Diário, Livro Razão, Balancete, DRE, Balanço Patrimonial, Encerramento do Exercício e Abertura do Próximo Exercício. |
+| 🏦 [Sistema Bancário](SISTEMA-BANCARIO.md) | Contas bancárias, PIX, TED, transferências, investimentos, empréstimos, extratos e cartões de crédito. |
+| 👨‍💼 [Sistema de RH / Folha de Pagamento](SISTEMA-RH.md) | Folha de pagamento, INSS, IRRF, FGTS, férias, décimo terceiro, benefícios e horas extras. |
+| 💰 [Sistema de Empréstimos](SISTEMA-EMPRESTIMO.md) | Simulação de financiamentos, análise de crédito, Tabela Price, SAC, amortização e pagamentos. |
+| ⚡ [Sistema de Energia](SISTEMA-ENERGIA.md) | Cálculo de consumo, bandeiras tarifárias, ICMS, PIS, COFINS, tarifa social e faturamento. |
+| 🚀 [Financial Management System](SISTEMA-FMS.md) | Projeto principal contendo dezenas de módulos integrados, simulando um ERP financeiro completo para estudo avançado de JUnit e Mockito. |
+
+---
+
+# 🎯 Objetivo
+
+O objetivo deste repositório é criar uma coleção de projetos que permitam praticar situações reais encontradas em sistemas corporativos, desenvolvendo habilidades em:
+
+- Java 25
+- Orientação a Objetos
+- SOLID
+- Clean Code
+- Design Patterns
+- Arquitetura em Camadas
+- JDBC Puro
+- H2 Database
+- JUnit 5
+- Mockito
+- Testes Parametrizados
+- Testes de Integração
+- TDD (Test Driven Development)
+- Regras de Negócio Complexas
+- Cálculos Financeiros
+- Cobertura de Código
+
+---
+
+# 📈 Evolução dos Projetos
+
+| Projeto | Dificuldade |
+|----------|:----------:|
+| Sistema Contábil | ⭐⭐⭐⭐⭐ |
+| Sistema Bancário | ⭐⭐⭐⭐⭐ |
+| Sistema RH | ⭐⭐⭐⭐⭐ |
+| Sistema de Empréstimos | ⭐⭐⭐⭐⭐ |
+| Sistema de Energia | ⭐⭐⭐⭐⭐ |
+| Financial Management System | ⭐⭐⭐⭐⭐⭐ |
+
+> **Recomendação de estudo:** comece pelos projetos individuais e, após dominar cada domínio de negócio, avance para o **Financial Management System**, que integra todos os conceitos em um único sistema de grande porte.
