@@ -57,18 +57,13 @@ class CalculadoraTest {
 	}
 
 	@Test
-    @DisplayName("Não deve permitir divisão por zero")
-    void naoDeveDividirPorZero() {
+	@DisplayName("Não deve permitir divisão por zero")
+	void naoDeveDividirPorZero() {
 
+		Calculadora calculadora = new Calculadora();
 
-        Calculadora calculadora = new Calculadora();
+		assertThrows(IllegalArgumentException.class, () -> calculadora.dividir(10, 0));
 
-
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> calculadora.dividir(10, 0)
-        );
-
-    }
+	}
 
 }
