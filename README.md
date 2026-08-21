@@ -1,3 +1,18 @@
+# App Test (Java 25 + JUnit 5 + Mockito)
+
+Aplicação console em Java 25 com foco em testes unitários e de integração modernos.
+
+## ⚙️ Configuração para Execução no Eclipse
+
+Devido às restrições de segurança de agentes dinâmicos nas versões recentes do JDK (Java 21/25+), ao rodar os testes via IDE (Eclipse), configure os **VM Arguments** nas configurações de Execução (`Run Configurations` -> `Arguments` -> `VM arguments`):
+
+```text
+-ea -XX:+EnableDynamicAgentLoading -Xshare:off
+
+
+---
+
+
 # App Test - JUnit e Mockito
 
 Projeto Java Maven desenvolvido para praticar testes unitários utilizando **JUnit 5** e **Mockito**, sem dependência de banco de dados, frameworks web ou Spring Boot.
