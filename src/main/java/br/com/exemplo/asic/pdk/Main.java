@@ -17,7 +17,7 @@ public class Main {
         System.out.println("\n--- [NETLIST SPICE GERADA] ---");
         System.out.println(netlistSpice);
 
-        System.out.println("\n--- [GEOMETRIAS DE LAYOUT (CIF) GERADAS] ---");
+        System.out.println("\n--- [GEOMETRIAS DE LAYOUT GERADAS] ---");
         layoutCamadas.forEach(camada -> 
             System.out.printf("Camada: %-8s | Caixa: [%d, %d, %d, %d] | CIF: %s%n",
                 camada.camada(), 
@@ -38,17 +38,16 @@ public class Main {
             Files.writeString(arquivoSpice, netlistSpice);
             System.out.println("\nArquivo SPICE salvo em: " + arquivoSpice.toAbsolutePath());
 
-            Path arquivoLayout = dirPath.resolve("nand2_10um.cif");
-            StringBuilder sbLayout = new StringBuilder();
-            layoutCamadas.forEach(c -> sbLayout.append(c.camada()).append(" ").append(c.paraCif()).append("\n"));
-            Files.writeString(arquivoLayout, sbLayout.toString());
-            System.out.println("Arquivo de Layout salvo em: " + arquivoLayout.toAbsolutePath());
+            // Substituído o StringBuilder manual pelo CifExporter oficial
+            Path arquivoCif = dirPath.resolve("nand2_10um.cif");
+            CifExporter.exportarParaCif("nand2_10um", layoutCamadas, arquivoCif);
+            System.out.println("Arquivo de Layout CIF salvo em: " + arquivoCif.toAbsolutePath());
 
             Path arquivoGds = dirPath.resolve("nand2_10um.gds");
             GdsExporter.exportarParaGds("nand2_10um", layoutCamadas, arquivoGds);
             System.out.println("Arquivo GDSII salvo em: " + arquivoGds.toAbsolutePath());
 
-            System.out.println("\nProcesso concluído com sucesso! Pronto para simulação no NGSPICE.");
+            System.out.println("\nProcesso concluído com sucesso! Pronto para simulação no NGSPICE e visualização no KLayout.");
 
         } catch (IOException e) {
             System.err.println("Erro ao salvar os arquivos do PDK: " + e.getMessage());
