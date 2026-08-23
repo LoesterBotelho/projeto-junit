@@ -115,3 +115,9 @@ Desktop.ini
 
 hs_err_pid*
 replay_pid*
+*.rar
+*.zip
+*.7z
+*.txt
+*.log
+*.logs
