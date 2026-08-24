@@ -7,7 +7,7 @@ import java.util.List;
  * Representa uma Célula Padrão CMOS de Porta Lógica NAND (NAND2) 
  * projetada sob as regras do PDK proprietário de 10 micrômetros.
  */
-public class NandCell10um {
+public class NandCell10um implements CelulaAsic {
 
     private final String nomeCelulas = "nand2_10um";
 

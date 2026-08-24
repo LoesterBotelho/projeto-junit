@@ -23,17 +23,19 @@ public class CifExporter {
         // Início da Definição da Célula (DS: Define Symbol 0, escala 1 1)
         sb.append("DS 0 1 1;\n");
         
-        String camadaAtual = "";
+        String camadaAtual = null;
         
         for (GeometriaCamada geom : geometrias) {
+            String camadaGeom = geom.camada() != null ? geom.camada().toUpperCase() : "";
+            
             // Se mudou de camada, insere o comando L (LAYER) do CIF
-            if (!geom.camada().equalsIgnoreCase(camadaAtual)) {
-                camadaAtual = geom.camada().toUpperCase();
+            if (!camadaGeom.equals(camadaAtual)) {
+                camadaAtual = camadaGeom;
                 sb.append("L ").append(camadaAtual).append(";\n");
             }
             
             // Cada geometria gera uma BOX no formato oficial do CIF: B largura altura x_centro y_centro;
-            sb.append("  ").append(geom.paraCif()).append("\n");
+            sb.append(" ").append(geom.paraCif()).append("\n");
         }
         
         // Fim da Definição da Célula (DF)

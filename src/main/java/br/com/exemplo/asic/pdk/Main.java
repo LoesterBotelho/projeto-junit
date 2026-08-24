@@ -4,26 +4,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("Inicializando Gerador PDK 10um");
 
-        NandCell10um nandCell = new NandCell10um();
-
-        String netlistSpice = nandCell.gerarNetlistCompleta();
-        var layoutCamadas = nandCell.gerarLayoutFisico();
-
-        System.out.println("\n--- [NETLIST SPICE GERADA] ---");
-        System.out.println(netlistSpice);
-
-        System.out.println("\n--- [GEOMETRIAS DE LAYOUT GERADAS] ---");
-        layoutCamadas.forEach(camada -> 
-            System.out.printf("Camada: %-8s | Caixa: [%d, %d, %d, %d] | CIF: %s%n",
-                camada.camada(), 
-                camada.x1(), camada.y1(), camada.x2(), camada.y2(), 
-                camada.paraCif()
-            )
+        // Utilizando a interface comum CelulaAsic
+        List<CelulaAsic> celulas = List.of(
+            new NandCell10um(),
+            new NotCell10um(),
+            new NorCell10um(),
+            new AndCell10um()
         );
 
         String diretorioDestino = "C:\\pdk";
@@ -34,20 +26,27 @@ public class Main {
                 System.out.println("\nDiretório criado com sucesso: " + diretorioDestino);
             }
 
-            Path arquivoSpice = dirPath.resolve("nand2_10um.cir");
-            Files.writeString(arquivoSpice, netlistSpice);
-            System.out.println("\nArquivo SPICE salvo em: " + arquivoSpice.toAbsolutePath());
+            for (CelulaAsic celula : celulas) {
+                String nome = celula.getNome();
+                String netlistSpice = celula.gerarNetlistCompleta();
+                List<GeometriaCamada> layoutCamadas = celula.gerarLayoutFisico();
 
-            // Substituído o StringBuilder manual pelo CifExporter oficial
-            Path arquivoCif = dirPath.resolve("nand2_10um.cif");
-            CifExporter.exportarParaCif("nand2_10um", layoutCamadas, arquivoCif);
-            System.out.println("Arquivo de Layout CIF salvo em: " + arquivoCif.toAbsolutePath());
+                System.out.println("\n--- [PROCESSANDO CÉLULA: " + nome.toUpperCase() + "] ---");
 
-            Path arquivoGds = dirPath.resolve("nand2_10um.gds");
-            GdsExporter.exportarParaGds("nand2_10um", layoutCamadas, arquivoGds);
-            System.out.println("Arquivo GDSII salvo em: " + arquivoGds.toAbsolutePath());
+                Path arquivoSpice = dirPath.resolve(nome + ".cir");
+                Files.writeString(arquivoSpice, netlistSpice);
+                System.out.println("Arquivo SPICE salvo em: " + arquivoSpice.toAbsolutePath());
 
-            System.out.println("\nProcesso concluído com sucesso! Pronto para simulação no NGSPICE e visualização no KLayout.");
+                Path arquivoCif = dirPath.resolve(nome + ".cif");
+                CifExporter.exportarParaCif(nome, layoutCamadas, arquivoCif);
+                System.out.println("Arquivo de Layout CIF salvo em: " + arquivoCif.toAbsolutePath());
+
+                Path arquivoGds = dirPath.resolve(nome + ".gds");
+                GdsExporter.exportarParaGds(nome, layoutCamadas, arquivoGds);
+                System.out.println("Arquivo GDSII salvo em: " + arquivoGds.toAbsolutePath());
+            }
+
+            System.out.println("\nProcesso concluído com sucesso para todas as portas! Pronto para simulação no NGSPICE e visualização no KLayout.");
 
         } catch (IOException e) {
             System.err.println("Erro ao salvar os arquivos do PDK: " + e.getMessage());

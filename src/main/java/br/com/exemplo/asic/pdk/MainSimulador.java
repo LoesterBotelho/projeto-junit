@@ -6,18 +6,20 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class MainSimulador {
 
     public static void main(String[] args) {
-        System.out.println("=== [INICIALIZANDO SIMULADOR NGSPICE PARA JAVA] ===");
+        System.out.println("   INICIALIZANDO SIMULADOR NGSPICE PARA JAVA");
 
-        // 1. Instancia a célula do PDK e gera a Netlist SPICE completa
-        NandCell10um nandCell = new NandCell10um();
-        String netlistSpice = nandCell.gerarNetlistCompleta();
-
-        System.out.println("\n--- [NETLIST SPICE GERADA] ---");
-        System.out.println(netlistSpice);
+        // Lista de células do PDK utilizando a interface comum
+        List<CelulaAsic> celulas = List.of(
+            new NandCell10um(),
+            new NotCell10um(),
+            new NorCell10um(),
+            new AndCell10um()
+        );
 
         String diretorioDestino = "C:\\pdk";
         try {
@@ -26,26 +28,35 @@ public class MainSimulador {
                 Files.createDirectories(dirPath);
             }
 
-            // 2. Salva a netlist em um arquivo .cir
-            Path arquivoSpice = dirPath.resolve("nand2_10um.cir");
-            Files.writeString(arquivoSpice, netlistSpice);
-            System.out.println("\n[OK] Arquivo SPICE salvo em: " + arquivoSpice.toAbsolutePath());
+            for (CelulaAsic celula : celulas) {
+                String nome = celula.getNome();
+                String netlistSpice = celula.gerarNetlistCompleta();
 
-            // 3. Executa o NGSPICE via ProcessBuilder em modo batch (-b)
-            executarNgspice(arquivoSpice);
+                System.out.println("\n--- [PROCESSANDO CÉLULA: " + nome.toUpperCase() + "] ---");
+                System.out.println(netlistSpice);
+
+                // 2. Salva a netlist em um arquivo .cir específico para cada célula
+                Path arquivoSpice = dirPath.resolve(nome + ".cir");
+                Files.writeString(arquivoSpice, netlistSpice);
+                System.out.println("\n[OK] Arquivo SPICE salvo em: " + arquivoSpice.toAbsolutePath());
+
+                // 3. Executa o NGSPICE via ProcessBuilder em modo batch para a respectiva célula
+                executarNgspice(arquivoSpice, nome);
+            }
+
+            System.out.println("\n=== [TODAS AS SIMULAÇÕES FORAM PROCESSADAS] ===");
 
         } catch (IOException e) {
             System.err.println("Erro ao manipular arquivos da simulação: " + e.getMessage());
         }
     }
 
-    private static void executarNgspice(Path caminhoCir) {
+    private static void executarNgspice(Path caminhoCir, String nomeCelulas) {
         try {
-            System.out.println("\n--- [DISPARANDO NGSPICE EM MODO BATCH] ---");
+            System.out.println("\n--- [DISPARANDO NGSPICE PARA: " + nomeCelulas + "] ---");
             
-            // Certifique-se de que o executável 'ngspice' está no PATH do Windows ou aponte o caminho completo (ex: "C:\\Spice64\\bin\\ngspice.exe")
-            //ProcessBuilder pb = new ProcessBuilder("ngspice", "-b", caminhoCir.getFileName().toString());
-            ProcessBuilder pb = new ProcessBuilder("ngspice", "-b", "-r", "nand2_10um.raw", caminhoCir.getFileName().toString());
+            String arquivoRaw = nomeCelulas + ".raw";
+            ProcessBuilder pb = new ProcessBuilder("ngspice", "-b", "-r", arquivoRaw, caminhoCir.getFileName().toString());
             pb.directory(caminhoCir.getParent().toFile());
             pb.redirectErrorStream(true);
 
@@ -61,7 +72,7 @@ public class MainSimulador {
 
             int exitCode = process.waitFor();
             if (exitCode == 0) {
-                System.out.println("\n[SUCESSO] Simulação concluída pelo NGSPICE!");
+                System.out.println("\n[SUCESSO] Simulação de " + nomeCelulas + " concluída pelo NGSPICE!");
             } else {
                 System.err.println("\n[AVISO] NGSPICE finalizou com código de saída: " + exitCode);
             }
